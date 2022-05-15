@@ -130,6 +130,4 @@ HM_vsdmat<-pheatmap(vsdmat, scale = 'row', border_color = 'NA',
                     angle_col =45)
 ```
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path)
