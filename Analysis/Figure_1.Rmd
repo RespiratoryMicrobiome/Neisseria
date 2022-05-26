@@ -1,0 +1,103 @@
+---
+title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 1 (b) and (c)"
+authors: "Micheál Mac Aogáin, Hong Sheng Cheng"
+date: "4/15/2022"
+output: 
+  html_document
+---
+
+## R Markdown
+This R Markdown document details R-generated analysis represented in Figure 1 of "Neissieria species as pathobioints in bronchiectasis" (under review - Cell Host & Microbe).
+
+Requires: DESeq2, GO.db, WGCNA, impute and preprocessCore.
+```{r, warning = FALSE, message = FALSE}
+if(!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+#install.packages("tidyverse")
+#install.packages("vegan")
+#install.packages("ggplot2")
+#install.packages("Hmisc")
+#install.packages("ggpubr")
+library(tidyverse)
+library(vegan)	
+library(ggplot2)	
+library(Hmisc)
+library(ggpubr)
+```
+
+## Load data for Figure 1
+```{r}
+Master=read.table("../Data/microbiome.csv", header=T,	row.names=1,sep=",")
+```
+
+## Plotting Principal component analysis (PCA) human airway microbiome profiles of bronchiectasis patients from SG-KL and DD cohorts
+```{r}
+Mbiome<-Master %>%
+  select(33:166)
+  
+vegdist(Mbiome, "bray")-> Mbiome_PCoA
+as.matrix(Mbiome_PCoA)->Mbiome_PCoA
+BrayCurtMbiome=cmdscale(Mbiome_PCoA)
+
+#extract co-ordinates for plotting
+BCords<-as.data.frame(scores(BrayCurtMbiome))
+Master$BacBC_1<-BCords$Dim1
+Master$BacBC_2<-BCords$Dim2
+
+#Plot co-ordinates and ordinate by geographic location
+ggplot(data = Master, aes(BacBC_1, BacBC_2, colour = Asian_European, shape = Matching_neisseria))+ 
+  geom_point(size =3)+
+  scale_colour_manual(values = c("Asian" = 'Red', "European" = 'Blue'), name = "Geographic Origin", labels = c("SG-KL","DD"))+
+  scale_shape_manual(values=c(16, 1))+
+  theme_set(theme_gray())+
+  theme(legend.justification = c(0, 1),legend.position = c(0, 1),
+        legend.box.margin=margin(c(4,4,4,4)),
+        legend.background = element_blank())+
+  labs(
+    x = "PC1 (20.3%)", y = "PC2 (15.4%)")+
+  labs(size = "% Neisseria spp. \n (relative abundance)")+
+  labs(alpha = "% Neisseria spp. \n (relative abundance)")+
+  guides(shape = "none")+
+  scale_y_reverse()+
+  scale_x_reverse()
+
+ggplot(data = Master, aes(BacBC_1, BacBC_2, colour = Neisseria))+ 
+  geom_point(size =3)+
+  scale_color_gradient(low="grey", high="red", limits = c(0,100))+
+  theme_set(theme_gray())+
+  theme(legend.justification = c(0, 1),legend.position = c(0, 1),
+        legend.box.margin=margin(c(5,5,5,5)),
+        legend.background = element_blank())+
+  labs(
+    x = "PC1 (20.3%)", y = "PC2 (15.4%)")+
+  labs(colour = "Neisseria spp. \nrelative abundance (%)")+
+  scale_y_reverse()+
+  scale_x_reverse()
+
+```
+
+#Boxplot of Neisseria abundance
+```{r}
+ggplot(data = Master, aes(Asian_European,Neisseria,  
+                          group = Asian_European, colour = Asian_European))+ geom_boxplot(outlier.shape = NA, )+
+  geom_jitter(width=0.2)+
+  scale_colour_manual(values = c("Asian" = 'Red', "European" = 'Blue'), name = "Geographic Origin", labels = c("SG-KL","DD"))+
+  stat_boxplot(geom = 'errorbar', width = 0.5)+
+  #theme_classic()+
+  theme_set(theme_gray())+
+  theme(legend.justification = c(0, 1),legend.position = c(0, 1),
+        legend.box.margin=margin(c(5,5,5,5)),
+        legend.background = element_blank())+
+  labs(colour="", 
+       x = "", y = "Neisseria spp. relative abundance (%)")+
+  scale_x_discrete(
+                   labels=c("SG-KL", "DD"))+
+  guides(colour = FALSE)
+
+#Test difference in Neisseria abundance  
+wilcox.test(Master$Neisseria~Master$Asian_European)
+
+```
+
+rmarkdown::render(rstudioapi::getSourceEditorContext()$path)
+
