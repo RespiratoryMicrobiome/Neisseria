@@ -26,7 +26,6 @@ library(RColorBrewer)
 ```
 
 ## Load data for Figure 4
-Requires: DESeq2, GO.db, WGCNA, impute and preprocessCore.
 ```{r}
 FC_count<-read.csv("../Data/FC_count.csv")
 coldata<-read.csv("../Data/coldata.csv", head=T,row.names=1,stringsAsFactors = F)
