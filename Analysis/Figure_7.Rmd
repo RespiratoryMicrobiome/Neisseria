@@ -1,0 +1,104 @@
+---
+title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 7 (a)"
+authors: "Micheál Mac Aogáin, Hong Sheng Cheng"
+date: "4/18/2022"
+output: html_document
+---
+
+## R Markdown
+This R Markdown document details R-generated analysis represented in Figure 7 of "Neissieria species as pathobioints in bronchiectasis" (under review - Cell Host & Microbe).
+
+## Install and load required R packages
+Requires: ggplot2 RcolourBrewer
+```{r}
+library(ggplot2)
+library(RColorBrewer)
+library(reshape2)
+```
+
+
+## Load data for Figure 7
+```{r}
+meta_data = read.table(
+  "../Data/Figure_7/Top40analysis.csv"
+  , header=T, stringsAsFactors=FALSE, sep=",")
+meta_data <- subset(meta_data, Disease != "Blank")
+meta_data <- melt(meta_data)
+meta_data$Disease <- factor(meta_data$Disease, levels=c("ND", "BE", "SA", "COPD"))
+meta_data$Geo.Origin <- factor(meta_data$Geo.Origin, levels=c("SG-KL", "DD"))
+
+levels(meta_data$variable)<-
+  c("Neisseria meningitidis",
+    "Neisseria flavescens",
+    "Neisseria subflava",
+    "Neisseria lactamica",
+    "Neisseria sicca",
+    "Neisseria gonorrhoeae",
+    "Rothia mucilaginosa",
+    "Streptococcus pneumoniae",
+    "Streptococcus mitis",
+    "Prevotella melaninogenica",
+    "Pseudomonas aeruginosa",
+    "Streptococcus parasanguinis",
+    "Haemophilus influenzae",
+    "Actinomyces odontolyticus",
+    "Veillonella parvula",
+    "Toxoplasma gondii",
+    "Streptococcus thermophilus",
+    "Streptococcus salivarius",
+    "Malassezia globosa",
+    "Streptococcus oralis",
+    "Streptococcus sanguinis",
+    "Streptococcus infantis",
+    "Streptococcus gordonii",
+    "Streptococcus sp. M143",
+    "Veillonella dispar",
+    "Rothia dentocariosa",
+    "Gemella haemolysans",
+    "Granulicatella adiacens",
+    "Drosophila willistoni",
+    "Veillonella atypica",
+    "Kocuria rhizophila",
+    "Fusobacterium nucleatum",
+    "Prevotella veroralis",
+    "Arthrobacter sp. FB24",
+    "Arthrobacter aurescens",
+    "Prevotella oris",
+    "Porphyromonas gingivalis",
+    "Actinomyces viscosus",
+    "Prevotella tannerae",
+    "Leptotrichia buccalis",
+    "Other"
+  )
+```
+
+```{r}
+ggplot(data=meta_data,aes(x=Disease, y=value, fill=variable))+
+  geom_bar(aes(), stat="identity", position = "fill") +
+  scale_fill_manual(values = c("#ff3333","#900D03", "#E3242B", "#B90E0A", "#ff9999","#BC544B", 
+                               "darkblue", "darkgoldenrod1", "darkseagreen", "darkorchid", "darkolivegreen1", 
+                               "lightskyblue", "darkgreen", "deeppink", "khaki2", "firebrick", "brown1", 
+                               "darkorange1", "cyan1", "royalblue4", "darksalmon", "brown4", "royalblue3", 
+                               "dodgerblue3", "steelblue1", "lightskyblue", "darkseagreen1", "darkgoldenrod3", 
+                               "darkseagreen2", "darkorchid3", "darkolivegreen2", "brown3", "darkorange3", "cyan3", 
+                               "darkseagreen3", "darkblue", "darkgoldenrod4", "darkseagreen2", "darkorchid1", 
+                                "darkolivegreen2", "grey" )) +
+  scale_y_continuous(labels = scales::percent)+
+  theme(legend.position="right",
+        axis.text=element_text(size=14),
+        axis.title=element_text(size=14),
+        axis.text.x = element_text(angle = 90),
+        panel.background = element_rect(fill = NA),
+        axis.line = element_line(size = 0.5, colour = "black"),
+        legend.title = element_blank(),
+        legend.text = element_text(face = "italic")) + 
+  guides(fill=guide_legend(ncol=2), size = .1)+
+  xlab("")+
+  ylab("Relative abundance")+
+  facet_wrap(~meta_data$Geo.Origin, scales="free_x")+
+  theme(
+    strip.background = element_rect(
+      color="white", fill="white", size=1, linetype="solid"),
+    strip.text.x = element_text(size = 12)
+    )
+```
