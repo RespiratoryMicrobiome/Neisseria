@@ -375,9 +375,8 @@ library(RColorBrewer)</code></pre>
 </div>
 <div id="load-data-for-figure-4" class="section level2">
 <h2>Load data for Figure 4</h2>
-<p>Requires: DESeq2, GO.db, WGCNA, impute and preprocessCore.</p>
 <pre class="r"><code>FC_count&lt;-read.csv(&quot;../Data/FC_count.csv&quot;)
-coldata&lt;-read.csv(&quot;../Data/coldata.csv&quot;, head=T,row.names=1,stringsAsFactors = F)
+coldata&lt;-read.csv(&quot;../Data/coldata.csv&quot;, head=T,row.names=1,stringsAsFactors = FALSE)
 
 #preparing count file from Featurecounts
 rownames(FC_count)&lt;-FC_count$gene_id

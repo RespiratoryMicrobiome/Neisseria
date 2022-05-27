@@ -2,8 +2,7 @@
 title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 6 (a), (b) and (c)"
 authors: "Micheál Mac Aogáin, Hong Sheng Cheng"
 date: "4/18/2022"
-output: 
-  BiocStyle::html_document
+output: html_document
 self_contained: FALSE
 ---
 
@@ -31,9 +30,9 @@ library(pheatmap)
 ## Load data for Figure 6
 ```{r}
 Metabolite_serum<-read.csv("../Data/Metabolite_serum.csv")
-Blue<-read.csv("../Data/Blue.csv", head=T,stringsAsFactors = F)
-Green<-read.csv("../Data/Green.csv", head=T,stringsAsFactors = F)
-Purple<-read.csv("../Data/Purple.csv", head=T,stringsAsFactors = F)
+Blue<-read.csv("../Data/Blue.csv", head=T,stringsAsFactors = FALSE)
+Green<-read.csv("../Data/Green.csv", head=T,stringsAsFactors = FALSE)
+Purple<-read.csv("../Data/Purple.csv", head=T,stringsAsFactors = FALSE)
 vsdmat<-read.csv("../Data/vsdmat.csv", row.names = 1)
 vsdmat<-as.matrix(vsdmat) #output from Figure 4 code
 clusterlist<-read.csv("../Data/clusterlist.csv",row.names = 1)
@@ -72,13 +71,13 @@ Metabolite_group1<-subset(Metabolite_group,Metabolite_group$group=="1")
 Metabolite_group1$group<-NULL
 Metabolite_group1<-as.data.frame(t(Metabolite_group1))
 Metabolite_group1$Group1<-rowSums(Metabolite_group1)
-Metabolite_group1<-Metabolite_group1[,c(19),drop=F]
+Metabolite_group1<-Metabolite_group1[,c(19),drop=FALSE]
 
 Metabolite_group2<-subset(Metabolite_group,Metabolite_group$group=="2")
 Metabolite_group2$group<-NULL
 Metabolite_group2<-as.data.frame(t(Metabolite_group2))
 Metabolite_group2$Group2<-rowSums(Metabolite_group2)
-Metabolite_group2<-Metabolite_group2[,c(14),drop=F]
+Metabolite_group2<-Metabolite_group2[,c(14),drop=FALSE]
 
 Metabolite_abundance<-as.data.frame(cbind(Metabolite_group1,Metabolite_group2))
 

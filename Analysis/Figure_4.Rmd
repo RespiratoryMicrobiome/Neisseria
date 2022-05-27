@@ -2,8 +2,7 @@
 title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 4 (b) and (c)"
 authors: "Micheál Mac Aogáin, Hong Sheng Cheng"
 date: "4/18/2022"
-output: 
-  BiocStyle::html_document
+output: html_document
 ---
 
 ## R Markdown
@@ -28,7 +27,7 @@ library(RColorBrewer)
 ## Load data for Figure 4
 ```{r}
 FC_count<-read.csv("../Data/FC_count.csv")
-coldata<-read.csv("../Data/coldata.csv", head=T,row.names=1,stringsAsFactors = F)
+coldata<-read.csv("../Data/coldata.csv", head=T,row.names=1,stringsAsFactors = FALSE)
 
 #preparing count file from Featurecounts
 rownames(FC_count)<-FC_count$gene_id
