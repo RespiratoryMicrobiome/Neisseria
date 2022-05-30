@@ -145,7 +145,7 @@ dev.off()
 
 ```
 ```{r label, out.width = "85%", fig.cap = ""}
-knitr::include_graphics("6B_png_for_HTML.png")
+knitr::include_graphics("../Data/Figure_6/6B_png_for_HTML.png")
 ```
 
 ## Plotting serum metabolite matrix in Figure 6 panel (c)
@@ -184,4 +184,3 @@ IPA_plot
 ```
 
 rmarkdown::render(rstudioapi::getSourceEditorContext()$path)
-

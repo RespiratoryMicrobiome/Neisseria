@@ -1,14 +1,17 @@
 ---
-title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 1 (b) and (c)"
+title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 1 (a-g) and (i)"
 authors: "Micheál Mac Aogáin, Hong Sheng Cheng"
 date: "4/15/2022"
 output: 
   html_document
+self_contained: FALSE
 ---
 
-## R Markdown
-This R Markdown document details R-generated analysis represented in Figure 1 of "Neissieria species as pathobioints in bronchiectasis" (under review - Cell Host & Microbe).
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+## Install and load required R packages
 Requires: DESeq2, GO.db, WGCNA, impute and preprocessCore.
 ```{r, warning = FALSE, message = FALSE}
 if(!require("BiocManager", quietly = TRUE))
@@ -30,10 +33,20 @@ library(ggpubr)
 Master=read.table("../Data/microbiome.csv", header=T,	row.names=1,sep=",")
 ```
 
-## Plotting Principal component analysis (PCA) human airway microbiome profiles of bronchiectasis patients from SG-KL and DD cohorts
+## Figure 1A - Exploratory visualisation of 16S rRNA bacteriome profiles (realtive abundance). 
+```{r 1A , out.width = "50%", fig.cap = ""}
+knitr::include_graphics("../Data/Figure_1/Figure_1A.pdf")
+#see "../Data/microbiome.csv" and ../Data/Figure_1/Figure_1A_for_github.xlsx
+```
+## Figure 1B - Exploratory visualisation of 16S rRNA bacteriome profiles (prevalence). 
+```{r 1B, out.width = "50%", fig.cap = ""}
+knitr::include_graphics("../Data/Figure_1/Figure_1B.pdf")
+#see "../Data/microbiome.csv" and "../Data/Figure_1/Figure_1B_for_github.xlsx"
+```
+## Figur 1C / D - Plotting Principal component analysis (PCA) human airway microbiome profiles of bronchiectasis patients from SG-KL and DD cohorts
 ```{r}
 Mbiome<-Master %>%
-  select(33:166)
+  select(31:164)
   
 vegdist(Mbiome, "bray")-> Mbiome_PCoA
 as.matrix(Mbiome_PCoA)->Mbiome_PCoA
@@ -45,7 +58,7 @@ Master$BacBC_1<-BCords$Dim1
 Master$BacBC_2<-BCords$Dim2
 
 #Plot co-ordinates and ordinate by geographic location
-ggplot(data = Master, aes(BacBC_1, BacBC_2, colour = Asian_European, shape = Matching_neisseria))+ 
+ggplot(data = Master, aes(BacBC_1, BacBC_2, colour = Asian_European, shape = Matching))+ 
   geom_point(size =3)+
   scale_colour_manual(values = c("Asian" = 'Red', "European" = 'Blue'), name = "Geographic Origin", labels = c("SG-KL","DD"))+
   scale_shape_manual(values=c(16, 1))+
@@ -74,9 +87,19 @@ ggplot(data = Master, aes(BacBC_1, BacBC_2, colour = Neisseria))+
   scale_y_reverse()+
   scale_x_reverse()
 
+#adonis2 analysis
+adonis2(Mbiome ~ Asian_European, data=Master, method="bray", permutations=999)
+
 ```
 
-#Boxplot of Neisseria abundance
+## Figrure 1E - LEfSe (Linear discriminant analysis Effect Size) plot for comparison of matched Asian and European patients.
+```{r 1E , out.width = "50%", fig.cap = ""}
+knitr::include_graphics("../Data/Figure_1/Figure_1E.pdf")
+#see "../Data/microbiome.csv" , "../Data/Figure_1/Lefse_Neisseria.txt" and "../Data/Figure_1/Figure_1E_LefSe_github.xlsx"
+```
+
+
+## Figure 1F - Boxplot of Neisseria abundance
 ```{r}
 ggplot(data = Master, aes(Asian_European,Neisseria,  
                           group = Asian_European, colour = Asian_European))+ geom_boxplot(outlier.shape = NA, )+
@@ -92,12 +115,52 @@ ggplot(data = Master, aes(Asian_European,Neisseria,
        x = "", y = "Neisseria spp. relative abundance (%)")+
   scale_x_discrete(
                    labels=c("SG-KL", "DD"))+
-  guides(colour = FALSE)
+  guides(colour = "none")
 
 #Test difference in Neisseria abundance  
 wilcox.test(Master$Neisseria~Master$Asian_European)
 
 ```
+## Figure 1G - Phlyogentic analysis for Neisseria whole genome sequences. 
+```{r 1G , out.width = "50%", fig.cap = ""}
+knitr::include_graphics("../Data/Figure_1/Figure_1G_phylogenetic_tree/3_phymlAnalysis/itol/MHKvB8yKM0qVMHQmTHOFSw_4.pdf")
+# A phylogenetic tree based on core genome alignments of 10 clinical isolates and 9 publicly available Neisseria spp. refernece genomes was generated.
+#For data including .gff files, core genome alignment output (Roary) and phylogenetic analysis (phyml) and visualisation (itol) see "../Data/Figure_1/Figure_1G_phylogenetic_tree/"
+```
+
+
+## Figure 1I - Neissera abundance vs Exacerbation rate
+```{r}
+Neisseria_exacerbations<-Master %>%
+  filter (Asian_European == "Asian" 
+          & Neisseria >=10)
+ggplot(data = Neisseria_exacerbations,
+       aes(Neisseria, 
+           No_of_exacerbations_1yr_before_study, group = Neisseria, colour = Asian_European,
+       ))+
+  scale_colour_manual(values = c("Asian" = 'Red', "European" = 'Blue'), name = "Geographic Origin", labels = c("SG-KL","DD"))+
+  #scale_color_gradient(low="grey", high="black")+
+  #geom_violin() +
+  geom_point()+
+  #geom_jitter(height = 0, width = 0.2)+
+  geom_smooth(method = "auto", se=TRUE, aes(group=1), colour = "black", size = 0.5)+
+  labs(colour="", 
+       x = "Neisseria spp. relative abundance (%)", y = "No. of exacerbations in the preceeding year")+
+  #theme_classic()+
+  theme_set(theme_gray())+
+  theme(legend.justification = c(0, 1),legend.position = c(0, 1),
+        legend.box.margin=margin(c(5,5,5,5)),
+        legend.background = element_blank(),
+        text = element_text(size=17))+
+  guides(colour = "none")
+
+#correlation between Neisseria abundance (>=10%) and Number of exacerbations in year preceeding study
+rcorr(Neisseria_exacerbations$No_of_exacerbations_1yr_before_study, Neisseria_exacerbations$Neisseria)
 
 rmarkdown::render(rstudioapi::getSourceEditorContext()$path)
+
+```
+
+
+
 
