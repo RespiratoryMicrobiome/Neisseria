@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Install and load required R packages
-Requires: DESeq2, GO.db, WGCNA, impute and preprocessCore.
+Requires: tidyverse, vegan, ggplot2, hmisc and ggpubr
 ```{r, warning = FALSE, message = FALSE}
 if(!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
@@ -30,7 +30,7 @@ library(ggpubr)
 
 ## Load data for Figure 1
 ```{r}
-Master=read.table("../Data/microbiome.csv", header=T,	row.names=1,sep=",")
+Master=read.table("../Data/Figure_1/microbiome.csv", header=T,	row.names=1,sep=",")
 ```
 
 ## Figure 1A - Exploratory visualisation of 16S rRNA bacteriome profiles (realtive abundance). 
@@ -100,7 +100,7 @@ knitr::include_graphics("../Data/Figure_1/Figure_1E.pdf")
 
 
 ## Figure 1F - Boxplot of Neisseria abundance
-```{r}
+```{r 1F}
 ggplot(data = Master, aes(Asian_European,Neisseria,  
                           group = Asian_European, colour = Asian_European))+ geom_boxplot(outlier.shape = NA, )+
   geom_jitter(width=0.2)+
@@ -130,7 +130,7 @@ knitr::include_graphics("../Data/Figure_1/Figure_1G_phylogenetic_tree/3_phymlAna
 
 
 ## Figure 1I - Neissera abundance vs Exacerbation rate
-```{r}
+```{r 1I}
 Neisseria_exacerbations<-Master %>%
   filter (Asian_European == "Asian" 
           & Neisseria >=10)
@@ -157,7 +157,7 @@ ggplot(data = Neisseria_exacerbations,
 #correlation between Neisseria abundance (>=10%) and Number of exacerbations in year preceeding study
 rcorr(Neisseria_exacerbations$No_of_exacerbations_1yr_before_study, Neisseria_exacerbations$Neisseria)
 
-rmarkdown::render(rstudioapi::getSourceEditorContext()$path)
+#rmarkdown::render(rstudioapi::getSourceEditorContext()$path)
 
 ```
 

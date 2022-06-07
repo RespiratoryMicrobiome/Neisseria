@@ -1,5 +1,5 @@
-# Neisseria species as pathobionts in bronchiectasis
-Accompanying code repository for the scientific manuscript "Neisseria species as pathobionts in bronchiectasis." by Li, Mac Aogáin & Xu et al. 2022 (under review).
+# *Neisseria* species as pathobionts in bronchiectasis
+Accompanying code repository for the scientific manuscript "*Neisseria* species as pathobionts in bronchiectasis." by Li, Mac Aogáin & Xu et al. 2022 (under review).
 
 Analysis supporting the results documented in the paper are presented as R-markdown files with accompanying rendered HTML files, which can be downloaded and viewed for ease of review. 
 
@@ -9,4 +9,22 @@ Figure 4 (Panels: B and C)
 Figure 6 (Panels: A, B and C)
 Figure 7 (Panels: A and B)
 
-All relevant data can be found in the folder "Data", while the "Analysis" folder contains R code required to rerun all analysis related to multi-dimentional datasets (Airway bacteriome and Mouse RNAseq transcriptome).
+All associated data can be found in the folder "Data", while the "Analysis" folder contains R code required to re-run all analysis related to multi-dimentional datasets (Airway bacteriome and Mouse RNAseq transcriptome).
+
+
+*All raw sequencing and metabolomics data described in the manuscript are accessible at the links below:*<br>
+16S rRNA gene amplicon sequencing data:<br> 
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA590225/
+
+Mouse transcriptomic RNA sequencing:<br>
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA706545 <br>
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA841997
+
+The metabolomics and lipidomics datasets:<br> 
+http://www.ebi.ac.uk/metabolights/MTBLS3009
+
+Metagenomic sequencing data:<br> 
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA595703
+
+*Neisseria subflava* genome assemblies:<br> 
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA714914
