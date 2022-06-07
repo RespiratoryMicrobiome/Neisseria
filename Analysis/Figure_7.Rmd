@@ -1,20 +1,19 @@
 ---
-title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 7 (a)"
+title: "R codebase for Li, Mac Aogáin & Xu et al. 2022 - Figure 7 (a) and (b)"
 authors: "Micheál Mac Aogáin, Hong Sheng Cheng"
 date: "4/18/2022"
 output: html_document
 ---
 
 ## Install and load required R packages
-Requires: ggplot2 RcolourBrewer
+Requires: ggplot2 RcolourBrewer reshape2
 ```{r}
 library(ggplot2)
 library(RColorBrewer)
 library(reshape2)
 ```
 
-
-## Load data for Figure 7
+## Load data for Figure 7A
 ```{r}
 meta_data = read.table(
   "../Data/Figure_7/Top40analysis.csv"
@@ -68,7 +67,7 @@ levels(meta_data$variable)<-
     "Other"
   )
 ```
-
+### Plot relative abundance for figure 7A
 ```{r}
 ggplot(data=meta_data,aes(x=Disease, y=value, fill=variable))+
   geom_bar(aes(), stat="identity", position = "fill") +
@@ -98,4 +97,11 @@ ggplot(data=meta_data,aes(x=Disease, y=value, fill=variable))+
       color="white", fill="white", size=1, linetype="solid"),
     strip.text.x = element_text(size = 12)
     )
+```
+
+
+### Analysis of patient sputum and home environment visualised using megan. 
+Megan output image below. Raw .megan file can be accessed at avaiable "../Data/Figure_7/Figure_7B_megan.megan". Data illustrated in the below figure, and that in the manuscript is available at "../Data/Figure_7/Figure_7B_megan_chart"
+```{r label, out.width = "85%", fig.cap = ""}
+knitr::include_graphics("../Data/Figure_7/Figure_7B_megan.svg")
 ```

@@ -29,10 +29,10 @@ library(pheatmap)
 
 ## Load data for Figure 6
 ```{r}
-Metabolite_serum<-read.csv("../Data/Metabolite_serum.csv")
-Blue<-read.csv("../Data/Blue.csv", head=T,stringsAsFactors = FALSE)
-Green<-read.csv("../Data/Green.csv", head=T,stringsAsFactors = FALSE)
-Purple<-read.csv("../Data/Purple.csv", head=T,stringsAsFactors = FALSE)
+Metabolite_serum<-read.csv("../Data/Figure_6/Metabolite_serum.csv")
+Blue<-read.csv("../Data/Figure_6/Blue.csv", head=T,stringsAsFactors = FALSE)
+Green<-read.csv("../Data/Figure_6/Green.csv", head=T,stringsAsFactors = FALSE)
+Purple<-read.csv("../Data/Figure_6/Purple.csv", head=T,stringsAsFactors = FALSE)
 vsdmat<-read.csv("../Data/vsdmat.csv", row.names = 1)
 vsdmat<-as.matrix(vsdmat) #output from Figure 4 code
 clusterlist<-read.csv("../Data/clusterlist.csv",row.names = 1)
