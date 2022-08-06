@@ -1,4 +1,5 @@
-# *Neisseria* species as pathobionts in bronchiectasis
+# *Neisseria* species as pathobionts in bronchiectasis<br> 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6969817.svg)](https://doi.org/10.5281/zenodo.6969817)<br>
 Accompanying code repository for the scientific manuscript "*Neisseria* species as pathobionts in bronchiectasis." by Li, Mac Aogáin & Xu et al. 2022 (under review).
 
 Analysis supporting the results documented in the paper are presented as R-markdown files with accompanying rendered HTML files, which can be downloaded and viewed for ease of review. 
