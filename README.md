@@ -22,7 +22,8 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA706545 <br>
 https://www.ncbi.nlm.nih.gov/bioproject/PRJNA841997
 
 The metabolomics and lipidomics datasets:<br> 
-http://www.ebi.ac.uk/metabolights/MTBLS3009
+http://www.ebi.ac.uk/metabolights/MTBLS3009<br> 
+https://doi.org/10.6084/m9.figshare.20445798.v1
 
 Metagenomic sequencing data:<br> 
 https://www.ncbi.nlm.nih.gov/bioproject/PRJNA595703
